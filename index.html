@@ -34,11 +34,18 @@
   font-family: var(--fi-font);
   color: var(--fi-black);
   background: var(--fi-bg);
-  max-width: 780px;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 40px 32px 48px;
+  padding: 40px 48px 48px;
   -webkit-font-smoothing: antialiased;
   line-height: 1.5;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--fi-bg, #fafafa);
 }
 
 .fi-root *, .fi-root *::before, .fi-root *::after {
@@ -612,6 +619,20 @@ input[type=range]::-moz-range-thumb:active {
 }
 
 /* ── Responsive ── */
+/* ── Large screens: comfortable inset ── */
+@media (min-width: 1200px) {
+  .fi-root { padding: 48px 64px 56px; }
+  .fi-slider-group { gap: 20px 56px; }
+  .fi-slider-group-3 { gap: 20px 48px; }
+}
+
+/* ── Tablets ── */
+@media (max-width: 768px) {
+  .fi-root { padding: 32px 24px 40px; }
+  .fi-slider-group-3 { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Mobile ── */
 @media (max-width: 600px) {
   .fi-root { padding: 24px 16px 32px; }
   .fi-slider-group, .fi-slider-group-3, .fi-metrics { grid-template-columns: 1fr; }
@@ -620,6 +641,8 @@ input[type=range]::-moz-range-thumb:active {
   .fi-hero-meta { flex-direction: column; gap: 12px; }
   .fi-hero-age-value { font-size: 44px; }
   .fi-age-row, .fi-lever-row { padding: 10px 14px; }
+  .fi-corpus-card { padding: 16px; }
+  .fi-age-header { padding: 10px 14px; }
 }
 </style>
 
@@ -629,7 +652,7 @@ input[type=range]::-moz-range-thumb:active {
 
   <div class="fi-tabs">
     <button class="fi-tab active" onclick="sw('pre')">Build to FI</button>
-    <button class="fi-tab" onclick="sw('post')">Post-FI Drawdown</button>
+    <button class="fi-tab" onclick="sw('post')">Post-Retirement Planner</button>
   </div>
 
   <!-- ═══════ PRE-FI PANEL ═══════ -->
@@ -802,7 +825,7 @@ input[type=range]::-moz-range-thumb:active {
     </div>
   </div>
 
-  <!-- ═══════ POST-FI PANEL ═══════ -->
+  <!-- ═══════ POST-RETIREMENT PANEL ═══════ -->
   <div id="panel-post" class="panel">
     <p class="fi-section-label">Your Situation</p>
     <div class="fi-slider-group">
