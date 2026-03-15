@@ -628,6 +628,79 @@ input[type=range]::-moz-range-thumb:active {
   font-weight: 600;
 }
 
+/* ── Download Button ── */
+.fi-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fi-font);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--fi-mid);
+  background: var(--fi-card);
+  border: 1px solid var(--fi-pale);
+  border-radius: var(--fi-radius);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: 32px;
+}
+
+.fi-download-btn:hover {
+  color: var(--fi-black);
+  border-color: var(--fi-black);
+}
+
+.fi-download-btn:active {
+  color: var(--fi-accent);
+  border-color: var(--fi-accent);
+}
+
+.fi-download-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── Print Styles ── */
+@media print {
+  html, body { background: #fff !important; }
+  .fi-root { padding: 24px !important; }
+  .fi-tabs, .fi-hero-slider, .fi-download-btn,
+  input[type=range], .fi-chart-wrap, .fi-chart-note,
+  .fi-legend, .fi-hero-meta { display: none !important; }
+  .fi-divider { margin: 16px 0 !important; }
+  .fi-slider { margin-bottom: 0 !important; }
+  .fi-slider-header { margin-bottom: 2px !important; }
+  .fi-corpus-card { break-inside: avoid; page-break-inside: avoid; }
+  .fi-metric { break-inside: avoid; page-break-inside: avoid; }
+  .fi-paths { break-inside: avoid; page-break-inside: avoid; }
+  .fi-age-table { break-inside: avoid; page-break-inside: avoid; }
+  .fi-lever-table { break-inside: avoid; page-break-inside: avoid; }
+  .fi-progress { break-inside: avoid; page-break-inside: avoid; }
+
+  /* Show a print header */
+  .fi-print-header { display: block !important; }
+
+  /* Print-friendly colors */
+  .fi-path { border-width: 1px !important; }
+  .fi-bar-track { background: #ddd !important; }
+}
+
+.fi-print-header {
+  display: none;
+  font-size: 11px;
+  color: var(--fi-light);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--fi-pale);
+}
+
 /* ── Responsive ── */
 /* ── Large screens: comfortable inset ── */
 @media (min-width: 1200px) {
@@ -887,6 +960,13 @@ input[type=range]::-moz-range-thumb:active {
   </div>
 
   <hr class="fi-divider">
+  <div style="display:flex;justify-content:flex-end;">
+    <button class="fi-download-btn" onclick="downloadReport()">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download Report
+    </button>
+  </div>
+  <p class="fi-print-header" id="print-header"></p>
   <div id="output-area"></div>
   <div class="fi-legend" id="legend"></div>
   <div class="fi-chart-wrap"><canvas id="rc"></canvas></div>
@@ -1089,6 +1169,14 @@ function drawChart(labels,datasets,tickCb){
   const fontFamily="'Inter', -apple-system, system-ui, sans-serif";
   if(chart){chart.data.labels=labels;chart.data.datasets=datasets;chart.options.scales.x.ticks.callback=tickCb;chart.update('none');}
   else{chart=new Chart(document.getElementById('rc').getContext('2d'),{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1a1a',titleFont:{family:fontFamily,size:11,weight:'500'},bodyFont:{family:fontFamily,size:12},cornerRadius:4,padding:10,callbacks:{label:ctx=>' '+fmtCr(ctx.parsed.y),title:ctx=>'Age '+ctx[0].label}}},scales:{x:{ticks:{autoSkip:true,maxTicksLimit:12,font:{family:fontFamily,size:10,weight:'400'},color:'#999',callback:tickCb},grid:{display:false},border:{display:false}},y:{ticks:{callback:v=>v>=1e7?'₹'+(v/1e7).toFixed(1)+'Cr':v>=1e5?'₹'+(v/1e5).toFixed(0)+'L':'₹'+(v/1000).toFixed(0)+'K',font:{family:fontFamily,size:10,weight:'400'},color:'#999'},grid:{color:'rgba(0,0,0,0.04)'},border:{display:false}}}}});}
+}
+
+function downloadReport(){
+  const tab = activeTab === 'pre' ? 'Build to FI' : 'Post-Retirement';
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'});
+  document.getElementById('print-header').textContent = 'Financial Independence Planner — ' + tab + ' Report · Generated ' + dateStr;
+  window.print();
 }
 
 document.querySelectorAll('input[type=range]').forEach(el=>{
