@@ -348,6 +348,52 @@ input[type=range]::-moz-range-thumb:active {
   border-radius: var(--fi-radius);
   padding: 24px;
   min-width: 0;
+  cursor: pointer;
+  transition: opacity 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.fi-path:not(.selected) {
+  opacity: 0.5;
+}
+
+.fi-path.selected {
+  box-shadow: 0 0 0 2px var(--fi-black);
+}
+
+.fi-path-check {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--fi-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.fi-path.selected .fi-path-check {
+  background: var(--fi-black);
+  border-color: var(--fi-black);
+}
+
+.fi-path-check svg {
+  width: 10px;
+  height: 10px;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.fi-path.selected .fi-path-check svg {
+  opacity: 1;
 }
 
 .fi-path.green {
@@ -975,7 +1021,7 @@ input[type=range]::-moz-range-thumb:active {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-let chart, activeTab='pre';
+let chart, activeTab='pre', selectedPath='A';
 function fmtIN(v){return Math.round(v).toLocaleString('en-IN');}
 function fmtRs(v){return '₹'+fmtIN(v);}
 function fmtCr(v){const n=Math.abs(Math.round(v)),s=v<0?'-':'';if(n>=1e7) return s+'₹'+(n/1e7).toFixed(2)+' Cr';if(n>=1e5) return s+'₹'+(n/1e5).toFixed(1)+' L';return s+fmtRs(n);}
@@ -1018,12 +1064,14 @@ function renderPre(){
 
   let html='';
 
-  // Path cards
-  html+='<p class="fi-section-label">Two paths to FI by age '+fiAge+'</p>';
+  // Path cards (selectable)
+  const checkSvg='<div class="fi-path-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>';
+  html+='<p class="fi-section-label">Choose your path to FI by age '+fiAge+'</p>';
   html+='<div class="fi-paths">';
 
   const flatCls=sipClass(reqFlat);
-  html+='<div class="fi-path '+flatCls+'">';
+  html+='<div class="fi-path '+flatCls+(selectedPath==='A'?' selected':'')+'" onclick="selectPath(\'A\')">';
+  html+=checkSvg;
   html+='<p class="fi-path-tag">Path A — Fixed SIP</p>';
   html+='<p class="fi-path-amount">'+(reqFlat===0?'—':fmtCr(reqFlat)+'/mo')+'</p>';
   html+='<p class="fi-path-desc">'+(reqFlat===0?'Other sources cover the full corpus.':'Same amount every month for '+yToFI+' years. Total invested: '+fmtCr(reqFlat*12*yToFI)+'.')+'</p>';
@@ -1032,7 +1080,8 @@ function renderPre(){
   html+='<div class="fi-path-divider">or</div>';
 
   const stepCls=sipClass(reqStep);
-  html+='<div class="fi-path '+stepCls+'">';
+  html+='<div class="fi-path '+stepCls+(selectedPath==='B'?' selected':'')+'" onclick="selectPath(\'B\')">';
+  html+=checkSvg;
   html+='<p class="fi-path-tag">Path B — Step-up SIP ('+(spPct*100).toFixed(0)+'%/yr)</p>';
   html+='<p class="fi-path-amount">'+(reqStep===0?'—':fmtCr(reqStep)+'/mo')+'</p>';
   html+='<p class="fi-path-desc">'+(reqStep===0?'Fully covered.':'Start smaller, increase '+(spPct*100).toFixed(0)+'% yearly. Reaches '+fmtCr(stepEndAmt)+'/mo by year '+yToFI+'. Total: '+fmtCr(reqStep*(Math.pow(1+spPct,yToFI)-1)/spPct*12)+'.')+'</p>';
@@ -1069,18 +1118,21 @@ function renderPre(){
   html+='<div class="fi-metric'+(netTarget<=0?' ok':'')+'"><p class="fi-metric-label">SIP must bridge</p><p class="fi-metric-value">'+(netTarget<=0?'₹0 — done':fmtCr(netTarget))+'</p><p class="fi-metric-sub">'+(netTarget<=0?'Fully covered':'Remaining gap')+'</p></div>';
   html+='</div>';
 
-  // Age tradeoff table
-  html+='<p class="fi-section-label">FI Age Tradeoff</p>';
+  // Age tradeoff table (respects selected path)
+  const isStepUp=selectedPath==='B';
+  const refSip=isStepUp?reqStep:reqFlat;
+  const pathLabel=isStepUp?'Step-up SIP':'Fixed SIP';
+  html+='<p class="fi-section-label">FI Age Tradeoff — '+pathLabel+'</p>';
   html+='<div class="fi-age-table">';
-  html+='<div class="fi-age-header"><span style="min-width:60px;">Age</span><span style="flex:2;">Required SIP</span><span style="min-width:90px;text-align:right;">Amount</span><span style="min-width:80px;text-align:right;">vs Target</span></div>';
+  html+='<div class="fi-age-header"><span style="min-width:60px;">Age</span><span style="flex:2;">Required SIP</span><span style="min-width:90px;text-align:right;">Start/mo</span><span style="min-width:80px;text-align:right;">vs Target</span></div>';
   const ageRange=[-5,-3,-2,-1,0,1,2,3,5].map(d=>fiAge+d).filter(a=>a>curAge&&a<=life-5);
   const sipAtAge={};
-  ageRange.forEach(a=>{const yy=Math.max(1,a-curAge),py=Math.max(1,life-a),c2=calcCorpus(monthlyExp*Math.pow(1+inf,yy)*12,postRet,inf,py),n2=Math.max(0,c2-getOtherFV(yy));sipAtAge[a]=flatSIP(n2,0,preRet,yy);});
+  ageRange.forEach(a=>{const yy=Math.max(1,a-curAge),py=Math.max(1,life-a),c2=calcCorpus(monthlyExp*Math.pow(1+inf,yy)*12,postRet,inf,py),n2=Math.max(0,c2-getOtherFV(yy));sipAtAge[a]=isStepUp?stepUpSIP(n2,0,preRet,yy,spPct):flatSIP(n2,0,preRet,yy);});
   const maxS=Math.max(1,...Object.values(sipAtAge));
   ageRange.forEach(a=>{
-    const isCurrent=a===fiAge,sip=sipAtAge[a],diff=sip-reqFlat;
+    const isCurrent=a===fiAge,sip=sipAtAge[a],diff=sip-refSip;
     const barPct=sip<=0?0:Math.min(100,Math.round((sip/maxS)*100));
-    const barColor=isCurrent?'var(--fi-accent)':sip<reqFlat?'var(--fi-green)':'var(--fi-red)';
+    const barColor=isCurrent?'var(--fi-accent)':sip<refSip?'var(--fi-green)':'var(--fi-red)';
     const diffStr=isCurrent?'Target':sip===0?'Covered':diff>0?'+'+fmtCr(diff):fmtCr(diff);
     const diffColor=isCurrent?'var(--fi-accent)':diff<0?'var(--fi-green)':'var(--fi-red)';
     html+='<div class="fi-age-row'+(isCurrent?' current':'')+'">';
@@ -1092,21 +1144,24 @@ function renderPre(){
   });
   html+='</div>';
 
-  // Lever sensitivity
-  html+='<p class="fi-section-label">Lever Sensitivity</p>';
+  // Lever sensitivity (respects selected path)
+  html+='<p class="fi-section-label">Lever Sensitivity — '+pathLabel+'</p>';
   html+='<div class="fi-lever-table">';
   const yR3=Math.max(1,fiAge+3-curAge),pY3=Math.max(1,life-fiAge-3);
+  const sipFn=isStepUp?
+    (target,existing,ret,yrs)=>stepUpSIP(target,existing,ret,yrs,spPct):
+    (target,existing,ret,yrs)=>flatSIP(target,existing,ret,yrs);
   const scenarios=[
-    {name:'Required flat SIP (FI at '+fiAge+')',sip:reqFlat,ref:true},
-    {name:'FI at age '+(fiAge+3)+' instead',sip:flatSIP(Math.max(0,calcCorpus(monthlyExp*Math.pow(1+inf,yR3)*12,postRet,inf,pY3)-getOtherFV(yR3)),0,preRet,yR3)},
-    {name:'Equity return '+(g('pr')+2).toFixed(1)+'% (+2%)',sip:flatSIP(netTarget,0,(g('pr')+2)/100,yToFI)},
-    {name:'Inflation '+(g('inf')+1).toFixed(1)+'% (+1%)',sip:(()=>{const i2=(g('inf')+1)/100;return flatSIP(Math.max(0,calcCorpus(monthlyExp*Math.pow(1+i2,yToFI)*12,postRet,i2,postYrs)-totalOtherFV),0,preRet,yToFI);})()},
-    {name:'Step-up SIP at '+(g('su')+5)+'%/yr',sip:stepUpSIP(netTarget,0,preRet,yToFI,(g('su')+5)/100)},
+    {name:'Required '+(isStepUp?'step-up':'flat')+' SIP (FI at '+fiAge+')',sip:refSip,ref:true},
+    {name:'FI at age '+(fiAge+3)+' instead',sip:sipFn(Math.max(0,calcCorpus(monthlyExp*Math.pow(1+inf,yR3)*12,postRet,inf,pY3)-getOtherFV(yR3)),0,preRet,yR3)},
+    {name:'Equity return '+(g('pr')+2).toFixed(1)+'% (+2%)',sip:sipFn(netTarget,0,(g('pr')+2)/100,yToFI)},
+    {name:'Inflation '+(g('inf')+1).toFixed(1)+'% (+1%)',sip:(()=>{const i2=(g('inf')+1)/100;return sipFn(Math.max(0,calcCorpus(monthlyExp*Math.pow(1+i2,yToFI)*12,postRet,i2,postYrs)-totalOtherFV),0,preRet,yToFI);})()},
+    ...(isStepUp?[{name:'Step-up at '+(g('su')+5)+'%/yr instead',sip:stepUpSIP(netTarget,0,preRet,yToFI,(g('su')+5)/100)}]:[{name:'Step-up SIP at '+(g('su'))+'%/yr instead',sip:stepUpSIP(netTarget,0,preRet,yToFI,spPct)}]),
   ];
   const maxSc=Math.max(1,...scenarios.map(s=>s.sip));
   scenarios.forEach(s=>{
     const p2=Math.min(100,Math.round((s.sip/maxSc)*100));
-    const c=s.ref?'var(--fi-accent)':s.sip<reqFlat?'var(--fi-green)':s.sip>reqFlat?'var(--fi-red)':'var(--fi-light)';
+    const c=s.ref?'var(--fi-accent)':s.sip<refSip?'var(--fi-green)':s.sip>refSip?'var(--fi-red)':'var(--fi-light)';
     html+='<div class="fi-lever-row"><span class="fi-lever-name'+(s.ref?' ref':'')+'">'+s.name+'</span><div class="fi-bar-track"><div class="fi-bar-fill" style="width:'+p2+'%;background:'+c+';"></div></div><span style="font-size:12px;font-weight:500;min-width:80px;text-align:right;color:'+c+';font-variant-numeric:tabular-nums;">'+(s.sip<=0?'Covered':fmtCr(s.sip))+'</span></div>';
   });
   html+='</div>';
@@ -1120,8 +1175,8 @@ function renderPre(){
   const othA=Array.from({length:yToFI+1},(_,i)=>Math.round(getOtherFV(i)));
   const depA=deplete(corpus,expAtFI*12,postRet,inf,postYrs,0,0);
   const datasets=[
-    {label:'Path A flat SIP',data:[...flatA,...np(tot-flatA.length)],borderColor:'var(--fi-green)',backgroundColor:'rgba(26,122,79,0.05)',fill:true,tension:0.4,pointRadius:0,borderWidth:1.5,spanGaps:false},
-    {label:'Path B step-up SIP',data:[...stepA,...np(tot-stepA.length)],borderColor:'var(--fi-blue)',backgroundColor:'rgba(37,99,235,0.04)',fill:true,tension:0.4,pointRadius:0,borderWidth:1.5,spanGaps:false},
+    {label:'Path A flat SIP',data:[...flatA,...np(tot-flatA.length)],borderColor:'var(--fi-green)',backgroundColor:selectedPath==='A'?'rgba(26,122,79,0.05)':'transparent',fill:true,tension:0.4,pointRadius:0,borderWidth:selectedPath==='A'?2.5:1,borderDash:selectedPath==='A'?[]:[4,3],spanGaps:false},
+    {label:'Path B step-up SIP',data:[...stepA,...np(tot-stepA.length)],borderColor:'var(--fi-blue)',backgroundColor:selectedPath==='B'?'rgba(37,99,235,0.04)':'transparent',fill:true,tension:0.4,pointRadius:0,borderWidth:selectedPath==='B'?2.5:1,borderDash:selectedPath==='B'?[]:[4,3],spanGaps:false},
   ];
   if(totalOtherFV>0) datasets.push({label:'Other sources',data:[...othA,...np(tot-othA.length)],borderColor:'var(--fi-amber)',backgroundColor:'rgba(161,98,7,0.04)',fill:true,tension:0.4,pointRadius:0,borderWidth:1.5,spanGaps:false});
   datasets.push({label:'FI drawdown',data:[...np(yToFI),...depA],borderColor:'var(--fi-accent)',backgroundColor:'rgba(214,64,0,0.04)',fill:true,tension:0.35,pointRadius:0,borderWidth:1.5,spanGaps:false});
@@ -1170,6 +1225,8 @@ function drawChart(labels,datasets,tickCb){
   if(chart){chart.data.labels=labels;chart.data.datasets=datasets;chart.options.scales.x.ticks.callback=tickCb;chart.update('none');}
   else{chart=new Chart(document.getElementById('rc').getContext('2d'),{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1a1a',titleFont:{family:fontFamily,size:11,weight:'500'},bodyFont:{family:fontFamily,size:12},cornerRadius:4,padding:10,callbacks:{label:ctx=>' '+fmtCr(ctx.parsed.y),title:ctx=>'Age '+ctx[0].label}}},scales:{x:{ticks:{autoSkip:true,maxTicksLimit:12,font:{family:fontFamily,size:10,weight:'400'},color:'#999',callback:tickCb},grid:{display:false},border:{display:false}},y:{ticks:{callback:v=>v>=1e7?'₹'+(v/1e7).toFixed(1)+'Cr':v>=1e5?'₹'+(v/1e5).toFixed(0)+'L':'₹'+(v/1000).toFixed(0)+'K',font:{family:fontFamily,size:10,weight:'400'},color:'#999'},grid:{color:'rgba(0,0,0,0.04)'},border:{display:false}}}}});}
 }
+
+function selectPath(p){selectedPath=p;r();}
 
 function downloadReport(){
   const tab = activeTab === 'pre' ? 'Build to FI' : 'Post-Retirement';
