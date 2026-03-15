@@ -1,0 +1,1068 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --fi-black: #1a1a1a;
+  --fi-dark: #2d2d2d;
+  --fi-mid: #6b6b6b;
+  --fi-light: #999;
+  --fi-pale: #e8e8e8;
+  --fi-bg: #fafafa;
+  --fi-card: #ffffff;
+  --fi-accent: #d64000;
+  --fi-accent-soft: #fff0eb;
+  --fi-green: #1a7a4f;
+  --fi-green-soft: #eef7f2;
+  --fi-amber: #a16207;
+  --fi-amber-soft: #fef9ee;
+  --fi-red: #c4321a;
+  --fi-red-soft: #fef2f0;
+  --fi-blue: #2563eb;
+  --fi-blue-soft: #eff4ff;
+  --fi-radius: 6px;
+  --fi-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Reset & Base ── */
+.fi-root {
+  font-family: var(--fi-font);
+  color: var(--fi-black);
+  background: var(--fi-bg);
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 32px 48px;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+.fi-root *, .fi-root *::before, .fi-root *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Typography ── */
+.fi-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fi-mid);
+  margin-bottom: 32px;
+}
+
+.fi-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fi-light);
+  margin-bottom: 16px;
+}
+
+/* ── Tabs ── */
+.fi-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--fi-pale);
+}
+
+.fi-tab {
+  padding: 10px 0;
+  margin-right: 32px;
+  font-family: var(--fi-font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fi-light);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  letter-spacing: 0.01em;
+}
+
+.fi-tab:hover {
+  color: var(--fi-dark);
+}
+
+.fi-tab.active {
+  color: var(--fi-black);
+  border-bottom-color: var(--fi-accent);
+}
+
+/* ── Panels ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── FI Hero ── */
+.fi-hero {
+  margin-bottom: 40px;
+}
+
+.fi-hero-age {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.fi-hero-age-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--fi-mid);
+}
+
+.fi-hero-age-value {
+  font-size: 56px;
+  font-weight: 300;
+  color: var(--fi-black);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.fi-hero-sub {
+  font-size: 12px;
+  color: var(--fi-light);
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+.fi-hero-slider {
+  width: 100%;
+}
+
+.fi-hero-meta {
+  display: flex;
+  gap: 32px;
+  margin-top: 20px;
+}
+
+.fi-hero-meta-item {
+  flex: 1;
+}
+
+/* ── Sliders ── */
+.fi-slider-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 40px;
+  margin-bottom: 8px;
+}
+
+.fi-slider-group-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px 32px;
+  margin-bottom: 8px;
+}
+
+.fi-slider {
+  margin-bottom: 4px;
+}
+
+.fi-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.fi-slider-label {
+  font-size: 12px;
+  color: var(--fi-mid);
+  font-weight: 400;
+}
+
+.fi-slider-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fi-black);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Range Input Styling ── */
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--fi-pale);
+  border-radius: 1px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--fi-black);
+  border: none;
+  margin-top: -6px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 4px rgba(26, 26, 26, 0.08);
+}
+
+input[type=range]::-webkit-slider-thumb:active {
+  transform: scale(1.05);
+  background: var(--fi-accent);
+  box-shadow: 0 0 0 6px rgba(214, 64, 0, 0.1);
+}
+
+input[type=range]::-moz-range-track {
+  height: 2px;
+  background: var(--fi-pale);
+  border-radius: 1px;
+  border: none;
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--fi-black);
+  border: none;
+  cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb:active {
+  background: var(--fi-accent);
+}
+
+/* ── Divider ── */
+.fi-divider {
+  border: none;
+  border-top: 1px solid var(--fi-pale);
+  margin: 32px 0;
+}
+
+/* ── Corpus Cards ── */
+.fi-corpus-card {
+  border: 1px solid var(--fi-pale);
+  border-radius: var(--fi-radius);
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  background: var(--fi-card);
+}
+
+.fi-corpus-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fi-mid);
+  margin-bottom: 16px;
+}
+
+/* ── Metric Cards ── */
+.fi-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.fi-metric {
+  background: var(--fi-card);
+  border: 1px solid var(--fi-pale);
+  border-radius: var(--fi-radius);
+  padding: 16px 20px;
+}
+
+.fi-metric-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fi-light);
+  margin-bottom: 6px;
+}
+
+.fi-metric-value {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--fi-black);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.fi-metric-sub {
+  font-size: 11px;
+  color: var(--fi-light);
+  margin-top: 4px;
+}
+
+.fi-metric.ok { border-left: 3px solid var(--fi-green); }
+.fi-metric.ok .fi-metric-value { color: var(--fi-green); }
+.fi-metric.warn { border-left: 3px solid var(--fi-amber); }
+.fi-metric.warn .fi-metric-value { color: var(--fi-amber); }
+.fi-metric.bad { border-left: 3px solid var(--fi-red); }
+.fi-metric.bad .fi-metric-value { color: var(--fi-red); }
+
+/* ── Path Cards ── */
+.fi-paths {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.fi-path {
+  flex: 1;
+  border-radius: var(--fi-radius);
+  padding: 24px;
+  min-width: 0;
+}
+
+.fi-path.green {
+  background: var(--fi-green-soft);
+  border: 1px solid rgba(26, 122, 79, 0.15);
+}
+
+.fi-path.amber {
+  background: var(--fi-amber-soft);
+  border: 1px solid rgba(161, 98, 7, 0.15);
+}
+
+.fi-path.red {
+  background: var(--fi-red-soft);
+  border: 1px solid rgba(196, 50, 26, 0.15);
+}
+
+.fi-path-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.fi-path.green .fi-path-tag { color: var(--fi-green); }
+.fi-path.amber .fi-path-tag { color: var(--fi-amber); }
+.fi-path.red .fi-path-tag { color: var(--fi-red); }
+
+.fi-path-amount {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.fi-path.green .fi-path-amount { color: var(--fi-green); }
+.fi-path.amber .fi-path-amount { color: var(--fi-amber); }
+.fi-path.red .fi-path-amount { color: var(--fi-red); }
+
+.fi-path-desc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--fi-mid);
+}
+
+.fi-path-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fi-light);
+}
+
+/* ── Guidance Box ── */
+.fi-guidance {
+  background: var(--fi-card);
+  border: 1px solid var(--fi-pale);
+  border-radius: var(--fi-radius);
+  padding: 16px 20px;
+  margin-bottom: 32px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--fi-mid);
+}
+
+.fi-guidance strong {
+  color: var(--fi-black);
+  font-weight: 600;
+}
+
+/* ── Progress Bar ── */
+.fi-progress {
+  background: var(--fi-card);
+  border: 1px solid var(--fi-pale);
+  border-radius: var(--fi-radius);
+  padding: 16px 20px;
+  margin-bottom: 32px;
+}
+
+.fi-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.fi-progress-label {
+  font-size: 12px;
+  color: var(--fi-mid);
+}
+
+.fi-progress-pct {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--fi-black);
+  font-variant-numeric: tabular-nums;
+}
+
+.fi-progress-track {
+  height: 4px;
+  background: var(--fi-pale);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.fi-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.fi-progress-detail {
+  font-size: 11px;
+  color: var(--fi-light);
+  line-height: 1.6;
+}
+
+/* ── Age Table ── */
+.fi-age-table {
+  background: var(--fi-card);
+  border: 1px solid var(--fi-pale);
+  border-radius: var(--fi-radius);
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.fi-age-header {
+  display: flex;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--fi-pale);
+  background: var(--fi-bg);
+}
+
+.fi-age-header span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fi-light);
+}
+
+.fi-age-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  transition: background 0.15s;
+}
+
+.fi-age-row:last-child { border-bottom: none; }
+
+.fi-age-row:hover { background: rgba(0,0,0,0.015); }
+
+.fi-age-row.current {
+  background: var(--fi-accent-soft);
+}
+
+.fi-age-chip {
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 60px;
+  color: var(--fi-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.fi-age-row.current .fi-age-chip {
+  color: var(--fi-accent);
+  font-weight: 600;
+}
+
+.fi-bar-track {
+  flex: 2;
+  height: 3px;
+  background: var(--fi-pale);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.fi-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+/* ── Lever Table ── */
+.fi-lever-table {
+  background: var(--fi-card);
+  border: 1px solid var(--fi-pale);
+  border-radius: var(--fi-radius);
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.fi-lever-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.fi-lever-row:last-child { border-bottom: none; }
+
+.fi-lever-name {
+  font-size: 12px;
+  color: var(--fi-mid);
+  flex: 1 1 160px;
+}
+
+.fi-lever-name.ref {
+  font-weight: 600;
+  color: var(--fi-black);
+}
+
+/* ── Chart Area ── */
+.fi-chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  margin-bottom: 8px;
+}
+
+.fi-chart-note {
+  font-size: 11px;
+  color: var(--fi-light);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+/* ── Legend ── */
+.fi-legend {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.fi-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--fi-mid);
+}
+
+.fi-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.fi-legend-dot.dashed {
+  background: transparent !important;
+  border: 1.5px dashed;
+}
+
+/* ── Info Box ── */
+.fi-info {
+  border-left: 3px solid var(--fi-blue);
+  padding: 12px 16px;
+  background: var(--fi-blue-soft);
+  border-radius: 0 var(--fi-radius) var(--fi-radius) 0;
+  margin-bottom: 32px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--fi-mid);
+}
+
+.fi-info strong {
+  color: var(--fi-blue);
+  font-weight: 600;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .fi-root { padding: 24px 16px 32px; }
+  .fi-slider-group, .fi-slider-group-3, .fi-metrics { grid-template-columns: 1fr; }
+  .fi-paths { flex-direction: column; }
+  .fi-path-divider { padding: 4px 0; }
+  .fi-hero-meta { flex-direction: column; gap: 12px; }
+  .fi-hero-age-value { font-size: 44px; }
+  .fi-age-row, .fi-lever-row { padding: 10px 14px; }
+}
+</style>
+
+<div class="fi-root">
+
+  <p class="fi-title">Financial Independence Planner</p>
+
+  <div class="fi-tabs">
+    <button class="fi-tab active" onclick="sw('pre')">Build to FI</button>
+    <button class="fi-tab" onclick="sw('post')">Post-FI Drawdown</button>
+  </div>
+
+  <!-- ═══════ PRE-FI PANEL ═══════ -->
+  <div id="panel-pre" class="panel active">
+
+    <div class="fi-hero">
+      <div class="fi-hero-age">
+        <span class="fi-hero-age-label">Financial independence by age</span>
+        <span class="fi-hero-age-value" id="ret-age-disp">45</span>
+      </div>
+      <p class="fi-hero-sub" id="years-left-msg"></p>
+      <input type="range" id="ret-age" min="35" max="70" step="1" value="45" class="fi-hero-slider">
+
+      <div class="fi-hero-meta">
+        <div class="fi-hero-meta-item">
+          <div class="fi-slider">
+            <div class="fi-slider-header">
+              <span class="fi-slider-label">Current age</span>
+              <span class="fi-slider-value" id="disp-ca">28</span>
+            </div>
+            <input type="range" id="ca" min="18" max="55" step="1" value="28">
+          </div>
+        </div>
+        <div class="fi-hero-meta-item">
+          <div class="fi-slider">
+            <div class="fi-slider-header">
+              <span class="fi-slider-label">Life expectancy</span>
+              <span class="fi-slider-value" id="disp-le">85</span>
+            </div>
+            <input type="range" id="le" min="65" max="100" step="1" value="85">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="fi-divider">
+    <p class="fi-section-label">Lifestyle & Inflation</p>
+    <div class="fi-slider-group">
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Monthly expenses today</span><span class="fi-slider-value" id="disp-me">₹60,000</span></div>
+        <input type="range" id="me" min="10000" max="500000" step="5000" value="60000">
+      </div>
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Inflation</span><span class="fi-slider-value" id="disp-inf">6%</span></div>
+        <input type="range" id="inf" min="3" max="12" step="0.5" value="6">
+      </div>
+    </div>
+
+    <hr class="fi-divider">
+    <p class="fi-section-label">Return Assumptions</p>
+    <div class="fi-slider-group-3">
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Equity / SIP return</span><span class="fi-slider-value" id="disp-pr">12%</span></div>
+        <input type="range" id="pr" min="4" max="20" step="0.5" value="12">
+      </div>
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Post-FI portfolio return</span><span class="fi-slider-value" id="disp-por">7%</span></div>
+        <input type="range" id="por" min="3" max="12" step="0.5" value="7">
+      </div>
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Step-up % / year</span><span class="fi-slider-value" id="disp-su">10%</span></div>
+        <input type="range" id="su" min="1" max="25" step="1" value="10">
+      </div>
+    </div>
+
+    <hr class="fi-divider">
+    <p class="fi-section-label">Existing Corpus</p>
+
+    <div class="fi-corpus-card">
+      <p class="fi-corpus-title">Mutual Funds / Equity</p>
+      <div class="fi-slider-group">
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Current value</span><span class="fi-slider-value" id="disp-mf">₹0</span></div>
+          <input type="range" id="mf" min="0" max="10000000" step="50000" value="0">
+        </div>
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Expected return</span><span class="fi-slider-value" id="disp-mfr">12%</span></div>
+          <input type="range" id="mfr" min="4" max="20" step="0.5" value="12">
+        </div>
+      </div>
+    </div>
+
+    <div class="fi-corpus-card">
+      <p class="fi-corpus-title">EPF / PPF</p>
+      <div class="fi-slider-group">
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Current balance</span><span class="fi-slider-value" id="disp-epf">₹0</span></div>
+          <input type="range" id="epf" min="0" max="10000000" step="50000" value="0">
+        </div>
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Monthly contribution</span><span class="fi-slider-value" id="disp-epfc">₹0</span></div>
+          <input type="range" id="epfc" min="0" max="100000" step="500" value="0">
+        </div>
+      </div>
+      <div class="fi-slider-group">
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Rate</span><span class="fi-slider-value" id="disp-epfr">8.1%</span></div>
+          <input type="range" id="epfr" min="6" max="10" step="0.1" value="8.1">
+        </div>
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Annual step-up</span><span class="fi-slider-value" id="disp-epfsu">5%</span></div>
+          <input type="range" id="epfsu" min="0" max="20" step="1" value="5">
+        </div>
+      </div>
+    </div>
+
+    <div class="fi-corpus-card">
+      <p class="fi-corpus-title">Fixed Deposits</p>
+      <div class="fi-slider-group">
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">FD value</span><span class="fi-slider-value" id="disp-fd">₹0</span></div>
+          <input type="range" id="fd" min="0" max="10000000" step="50000" value="0">
+        </div>
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">FD rate</span><span class="fi-slider-value" id="disp-fdr">7%</span></div>
+          <input type="range" id="fdr" min="4" max="10" step="0.25" value="7">
+        </div>
+      </div>
+      <div class="fi-slider-group">
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Monthly RD top-up</span><span class="fi-slider-value" id="disp-fdt">₹0</span></div>
+          <input type="range" id="fdt" min="0" max="100000" step="1000" value="0">
+        </div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class="fi-corpus-card">
+      <p class="fi-corpus-title">NPS</p>
+      <div class="fi-slider-group">
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">NPS balance</span><span class="fi-slider-value" id="disp-nps">₹0</span></div>
+          <input type="range" id="nps" min="0" max="10000000" step="50000" value="0">
+        </div>
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Monthly contribution</span><span class="fi-slider-value" id="disp-npsc">₹0</span></div>
+          <input type="range" id="npsc" min="0" max="100000" step="500" value="0">
+        </div>
+      </div>
+      <div class="fi-slider-group">
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Expected return</span><span class="fi-slider-value" id="disp-npsr">10%</span></div>
+          <input type="range" id="npsr" min="6" max="14" step="0.5" value="10">
+        </div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class="fi-corpus-card">
+      <p class="fi-corpus-title">Other (Gold, Real Estate, ULIP)</p>
+      <div class="fi-slider-group">
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Current value</span><span class="fi-slider-value" id="disp-oth">₹0</span></div>
+          <input type="range" id="oth" min="0" max="20000000" step="100000" value="0">
+        </div>
+        <div class="fi-slider">
+          <div class="fi-slider-header"><span class="fi-slider-label">Expected return</span><span class="fi-slider-value" id="disp-othr">8%</span></div>
+          <input type="range" id="othr" min="3" max="16" step="0.5" value="8">
+        </div>
+      </div>
+    </div>
+
+    <hr class="fi-divider">
+    <p class="fi-section-label">Your Current SIP</p>
+    <div class="fi-slider-group">
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Monthly SIP</span><span class="fi-slider-value" id="disp-cs">₹0</span></div>
+        <input type="range" id="cs" min="0" max="200000" step="1000" value="0">
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ POST-FI PANEL ═══════ -->
+  <div id="panel-post" class="panel">
+    <p class="fi-section-label">Your Situation</p>
+    <div class="fi-slider-group">
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Current age</span><span class="fi-slider-value" id="disp-pca">45</span></div>
+        <input type="range" id="pca" min="35" max="85" step="1" value="45">
+      </div>
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Life expectancy</span><span class="fi-slider-value" id="disp-ple">85</span></div>
+        <input type="range" id="ple" min="65" max="100" step="1" value="85">
+      </div>
+    </div>
+    <div class="fi-slider-group">
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Corpus today</span><span class="fi-slider-value" id="disp-pc">₹1,00,00,000</span></div>
+        <input type="range" id="pc" min="500000" max="100000000" step="500000" value="10000000">
+      </div>
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Monthly expenses today</span><span class="fi-slider-value" id="disp-pme">₹60,000</span></div>
+        <input type="range" id="pme" min="5000" max="300000" step="5000" value="60000">
+      </div>
+    </div>
+
+    <hr class="fi-divider">
+    <p class="fi-section-label">Assumptions</p>
+    <div class="fi-slider-group">
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Portfolio return</span><span class="fi-slider-value" id="disp-pret">7%</span></div>
+        <input type="range" id="pret" min="3" max="14" step="0.5" value="7">
+      </div>
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Inflation</span><span class="fi-slider-value" id="disp-pinf">6%</span></div>
+        <input type="range" id="pinf" min="3" max="12" step="0.5" value="6">
+      </div>
+    </div>
+
+    <hr class="fi-divider">
+    <p class="fi-section-label">Passive Income</p>
+    <div class="fi-slider-group">
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Monthly income</span><span class="fi-slider-value" id="disp-inc">₹0</span></div>
+        <input type="range" id="inc" min="0" max="200000" step="2000" value="0">
+      </div>
+      <div class="fi-slider">
+        <div class="fi-slider-header"><span class="fi-slider-label">Income growth / year</span><span class="fi-slider-value" id="disp-incg">5%</span></div>
+        <input type="range" id="incg" min="0" max="12" step="0.5" value="5">
+      </div>
+    </div>
+  </div>
+
+  <hr class="fi-divider">
+  <div id="output-area"></div>
+  <div class="fi-legend" id="legend"></div>
+  <div class="fi-chart-wrap"><canvas id="rc"></canvas></div>
+  <p class="fi-chart-note" id="cnote"></p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let chart, activeTab='pre';
+function fmtIN(v){return Math.round(v).toLocaleString('en-IN');}
+function fmtRs(v){return '₹'+fmtIN(v);}
+function fmtCr(v){const n=Math.abs(Math.round(v)),s=v<0?'-':'';if(n>=1e7) return s+'₹'+(n/1e7).toFixed(2)+' Cr';if(n>=1e5) return s+'₹'+(n/1e5).toFixed(1)+' L';return s+fmtRs(n);}
+function g(id){return +document.getElementById(id).value;}
+function setText(id,val){const el=document.getElementById(id);if(el) el.textContent=val;}
+function sw(t){activeTab=t;['pre','post'].forEach((x,i)=>{document.getElementById('panel-'+x).classList.toggle('active',x===t);document.querySelectorAll('.fi-tab')[i].classList.toggle('active',x===t);});r();}
+function fvLump(pv,rate,yrs){return yrs<=0?pv:pv*Math.pow(1+rate,yrs);}
+function fvSIP(m,rate,yrs){if(yrs<=0)return 0;const rm=rate/12,n=yrs*12;if(rm===0)return m*n;return m*(Math.pow(1+rm,n)-1)/rm*(1+rm);}
+function fvStepSIP(start,sp,rate,yrs){if(yrs<=0)return 0;const rm=rate/12;let bal=0,m=start;for(let y=0;y<yrs;y++){for(let mo=0;mo<12;mo++)bal=(bal+m)*(1+rm);m*=(1+sp);}return bal;}
+function calcCorpus(annExp,ret,inf,yrs){if(yrs<=0)return 0;if(Math.abs(ret-inf)<0.0001)return annExp*yrs;return annExp*(1-Math.pow((1+inf)/(1+ret),yrs))/(ret-inf);}
+function flatSIP(target,existing,ret,yrs){const rm=ret/12,n=yrs*12,fvEx=fvLump(existing,ret,yrs),rem=Math.max(0,target-fvEx);if(rem<=0||n<=0)return 0;return rem*rm/((Math.pow(1+rm,n)-1)*(1+rm));}
+function stepUpSIP(target,existing,ret,yrs,sp){const rm=ret/12,n=yrs*12,fvEx=fvLump(existing,ret,yrs),rem=Math.max(0,target-fvEx);if(rem<=0||n<=0)return 0;let fvUnit=0,m=1;for(let y=0;y<yrs;y++){for(let mo=0;mo<12;mo++)fvUnit+=m*Math.pow(1+rm,n-(y*12+mo));m*=(1+sp);}return rem/fvUnit;}
+function accBuild(existing,sip,ret,yrs){const rm=ret/12;let bal=existing;const out=[Math.round(bal)];for(let y=0;y<yrs;y++){for(let m=0;m<12;m++)bal=(bal+sip)*(1+rm);out.push(Math.round(bal));}return out;}
+function stepBuild(existing,start,ret,yrs,sp){const rm=ret/12;let bal=existing,m=start;const out=[Math.round(bal)];for(let y=0;y<yrs;y++){for(let mo=0;mo<12;mo++)bal=(bal+m)*(1+rm);out.push(Math.round(bal));m*=(1+sp);}return out;}
+function deplete(corpus,annExp,ret,inf,yrs,mInc,incG){let bal=corpus,exp=annExp,inc=(mInc||0)*12,g2=incG||0;const out=[Math.round(bal)];for(let y=0;y<yrs;y++){bal=bal*(1+ret)-(exp-inc);exp*=(1+inf);inc*=(1+g2);out.push(Math.round(Math.max(0,bal)));}return out;}
+function corpusRunsOut(arr,sa){for(let i=1;i<arr.length;i++)if(arr[i]<=0)return sa+i;return null;}
+function setLegend(items){document.getElementById('legend').innerHTML=items.map(i=>`<span class="fi-legend-item"><span class="fi-legend-dot${i.dash?' dashed':''}" style="background:${i.color};${i.dash?'border-color:'+i.color+';':''}"></span>${i.label}</span>`).join('');}
+function getOtherFV(yrs){const mfV=g('mf'),mfR=g('mfr')/100,epfB=g('epf'),epfC=g('epfc'),epfR=g('epfr')/100,epfSU=g('epfsu')/100,fdV=g('fd'),fdR=g('fdr')/100,fdT=g('fdt'),npsV=g('nps'),npsC=g('npsc'),npsR=g('npsr')/100,othV=g('oth'),othR=g('othr')/100;return fvLump(mfV,mfR,yrs)+fvLump(epfB,epfR,yrs)+fvStepSIP(epfC,epfSU,epfR,yrs)+fvLump(fdV,fdR,yrs)+fvSIP(fdT,fdR,yrs)+fvLump(npsV,npsR,yrs)+fvSIP(npsC,npsR,yrs)+fvLump(othV,othR,yrs);}
+function sipClass(amt){return amt===0?'green':amt<30000?'green':amt<75000?'amber':'red';}
+
+function r(){if(activeTab==='pre')renderPre();else renderPost();}
+
+function renderPre(){
+  const curAge=g('ca'),fiAge=g('ret-age'),life=g('le');
+  const monthlyExp=g('me'),inf=g('inf')/100;
+  const preRet=g('pr')/100,postRet=g('por')/100,spPct=g('su')/100;
+  const currentSIP=g('cs');
+  const yToFI=Math.max(1,fiAge-curAge),postYrs=Math.max(1,life-fiAge);
+  setText('ret-age-disp',fiAge);
+  setText('years-left-msg',yToFI+' year'+(yToFI!==1?'s':'')+' to freedom  ·  '+postYrs+' years of FI life');
+
+  const totalOtherFV=getOtherFV(yToFI);
+  const expAtFI=monthlyExp*Math.pow(1+inf,yToFI);
+  const corpus=calcCorpus(expAtFI*12,postRet,inf,postYrs);
+  const netTarget=Math.max(0,corpus-totalOtherFV);
+  const reqFlat=flatSIP(netTarget,0,preRet,yToFI);
+  const reqStep=stepUpSIP(netTarget,0,preRet,yToFI,spPct);
+  const coverPct=Math.min(100,Math.round((totalOtherFV/corpus)*100));
+  const stepEndAmt=reqStep>0?reqStep*Math.pow(1+spPct,yToFI-1):0;
+
+  let html='';
+
+  // Path cards
+  html+='<p class="fi-section-label">Two paths to FI by age '+fiAge+'</p>';
+  html+='<div class="fi-paths">';
+
+  const flatCls=sipClass(reqFlat);
+  html+='<div class="fi-path '+flatCls+'">';
+  html+='<p class="fi-path-tag">Path A — Fixed SIP</p>';
+  html+='<p class="fi-path-amount">'+(reqFlat===0?'—':fmtCr(reqFlat)+'/mo')+'</p>';
+  html+='<p class="fi-path-desc">'+(reqFlat===0?'Other sources cover the full corpus.':'Same amount every month for '+yToFI+' years. Total invested: '+fmtCr(reqFlat*12*yToFI)+'.')+'</p>';
+  html+='</div>';
+
+  html+='<div class="fi-path-divider">or</div>';
+
+  const stepCls=sipClass(reqStep);
+  html+='<div class="fi-path '+stepCls+'">';
+  html+='<p class="fi-path-tag">Path B — Step-up SIP ('+(spPct*100).toFixed(0)+'%/yr)</p>';
+  html+='<p class="fi-path-amount">'+(reqStep===0?'—':fmtCr(reqStep)+'/mo')+'</p>';
+  html+='<p class="fi-path-desc">'+(reqStep===0?'Fully covered.':'Start smaller, increase '+(spPct*100).toFixed(0)+'% yearly. Reaches '+fmtCr(stepEndAmt)+'/mo by year '+yToFI+'. Total: '+fmtCr(reqStep*(Math.pow(1+spPct,yToFI)-1)/spPct*12)+'.')+'</p>';
+  html+='</div>';
+  html+='</div>';
+
+  // Guidance
+  if(reqFlat>0&&reqStep>0){
+    const saving=reqFlat-reqStep;
+    html+='<div class="fi-guidance">Path B starts <strong>'+fmtCr(saving)+'/mo lower</strong> than Path A today. Choose A for simplicity and a fixed auto-debit. Choose B if you expect salary growth and want to start with less pressure.</div>';
+  }
+
+  // Progress bar
+  if(currentSIP>0){
+    const sipProj=accBuild(0,currentSIP,preRet,yToFI).slice(-1)[0];
+    const totalProj=sipProj+totalOtherFV;
+    const pct=Math.min(200,Math.round((totalProj/corpus)*100));
+    const dpct=Math.min(100,pct);
+    const bc=pct>=100?'var(--fi-green)':pct>=60?'var(--fi-amber)':'var(--fi-red)';
+    const shortfall=Math.max(0,reqFlat-currentSIP);
+    html+='<div class="fi-progress">';
+    html+='<div class="fi-progress-header"><span class="fi-progress-label">Your '+fmtRs(currentSIP)+'/mo SIP + all other sources</span><span class="fi-progress-pct">'+pct+'%</span></div>';
+    html+='<div class="fi-progress-track"><div class="fi-progress-fill" style="width:'+dpct+'%;background:'+bc+';"></div></div>';
+    html+='<p class="fi-progress-detail">'+fmtCr(sipProj)+' (SIP) + '+fmtCr(totalOtherFV)+' (other) = <strong>'+fmtCr(totalProj)+'</strong> vs '+fmtCr(corpus)+' needed. ';
+    html+=pct>=100?'On track for FI at age '+fiAge+'.':shortfall>0?'Increase SIP by '+fmtCr(shortfall)+'/mo (Path A) or switch to step-up at '+fmtCr(reqStep)+'/mo (Path B).':'';
+    html+='</p></div>';
+  }
+
+  // Metrics
+  html+='<div class="fi-metrics">';
+  html+='<div class="fi-metric"><p class="fi-metric-label">Monthly expense at FI</p><p class="fi-metric-value">'+fmtCr(expAtFI)+'</p><p class="fi-metric-sub">vs '+fmtRs(monthlyExp)+' today</p></div>';
+  html+='<div class="fi-metric"><p class="fi-metric-label">Freedom corpus needed</p><p class="fi-metric-value">'+fmtCr(corpus)+'</p><p class="fi-metric-sub">Funds '+postYrs+' years of FI life</p></div>';
+  html+='<div class="fi-metric'+(totalOtherFV>0?' ok':'')+'"><p class="fi-metric-label">Existing sources</p><p class="fi-metric-value">'+fmtCr(totalOtherFV)+'</p><p class="fi-metric-sub">'+coverPct+'% of corpus covered</p></div>';
+  html+='<div class="fi-metric'+(netTarget<=0?' ok':'')+'"><p class="fi-metric-label">SIP must bridge</p><p class="fi-metric-value">'+(netTarget<=0?'₹0 — done':fmtCr(netTarget))+'</p><p class="fi-metric-sub">'+(netTarget<=0?'Fully covered':'Remaining gap')+'</p></div>';
+  html+='</div>';
+
+  // Age tradeoff table
+  html+='<p class="fi-section-label">FI Age Tradeoff</p>';
+  html+='<div class="fi-age-table">';
+  html+='<div class="fi-age-header"><span style="min-width:60px;">Age</span><span style="flex:2;">Required SIP</span><span style="min-width:90px;text-align:right;">Amount</span><span style="min-width:80px;text-align:right;">vs Target</span></div>';
+  const ageRange=[-5,-3,-2,-1,0,1,2,3,5].map(d=>fiAge+d).filter(a=>a>curAge&&a<=life-5);
+  const sipAtAge={};
+  ageRange.forEach(a=>{const yy=Math.max(1,a-curAge),py=Math.max(1,life-a),c2=calcCorpus(monthlyExp*Math.pow(1+inf,yy)*12,postRet,inf,py),n2=Math.max(0,c2-getOtherFV(yy));sipAtAge[a]=flatSIP(n2,0,preRet,yy);});
+  const maxS=Math.max(1,...Object.values(sipAtAge));
+  ageRange.forEach(a=>{
+    const isCurrent=a===fiAge,sip=sipAtAge[a],diff=sip-reqFlat;
+    const barPct=sip<=0?0:Math.min(100,Math.round((sip/maxS)*100));
+    const barColor=isCurrent?'var(--fi-accent)':sip<reqFlat?'var(--fi-green)':'var(--fi-red)';
+    const diffStr=isCurrent?'Target':sip===0?'Covered':diff>0?'+'+fmtCr(diff):fmtCr(diff);
+    const diffColor=isCurrent?'var(--fi-accent)':diff<0?'var(--fi-green)':'var(--fi-red)';
+    html+='<div class="fi-age-row'+(isCurrent?' current':'')+'">';
+    html+='<span class="fi-age-chip">'+a+'</span>';
+    html+='<div class="fi-bar-track"><div class="fi-bar-fill" style="width:'+barPct+'%;background:'+barColor+';"></div></div>';
+    html+='<span style="font-size:12px;font-weight:500;min-width:90px;text-align:right;color:'+(isCurrent?'var(--fi-accent)':barColor)+';font-variant-numeric:tabular-nums;">'+(sip<=0?'—':fmtCr(sip))+'/mo</span>';
+    html+='<span style="font-size:11px;min-width:80px;text-align:right;color:'+diffColor+';font-weight:'+(isCurrent?'600':'400')+';font-variant-numeric:tabular-nums;">'+diffStr+'</span>';
+    html+='</div>';
+  });
+  html+='</div>';
+
+  // Lever sensitivity
+  html+='<p class="fi-section-label">Lever Sensitivity</p>';
+  html+='<div class="fi-lever-table">';
+  const yR3=Math.max(1,fiAge+3-curAge),pY3=Math.max(1,life-fiAge-3);
+  const scenarios=[
+    {name:'Required flat SIP (FI at '+fiAge+')',sip:reqFlat,ref:true},
+    {name:'FI at age '+(fiAge+3)+' instead',sip:flatSIP(Math.max(0,calcCorpus(monthlyExp*Math.pow(1+inf,yR3)*12,postRet,inf,pY3)-getOtherFV(yR3)),0,preRet,yR3)},
+    {name:'Equity return '+(g('pr')+2).toFixed(1)+'% (+2%)',sip:flatSIP(netTarget,0,(g('pr')+2)/100,yToFI)},
+    {name:'Inflation '+(g('inf')+1).toFixed(1)+'% (+1%)',sip:(()=>{const i2=(g('inf')+1)/100;return flatSIP(Math.max(0,calcCorpus(monthlyExp*Math.pow(1+i2,yToFI)*12,postRet,i2,postYrs)-totalOtherFV),0,preRet,yToFI);})()},
+    {name:'Step-up SIP at '+(g('su')+5)+'%/yr',sip:stepUpSIP(netTarget,0,preRet,yToFI,(g('su')+5)/100)},
+  ];
+  const maxSc=Math.max(1,...scenarios.map(s=>s.sip));
+  scenarios.forEach(s=>{
+    const p2=Math.min(100,Math.round((s.sip/maxSc)*100));
+    const c=s.ref?'var(--fi-accent)':s.sip<reqFlat?'var(--fi-green)':s.sip>reqFlat?'var(--fi-red)':'var(--fi-light)';
+    html+='<div class="fi-lever-row"><span class="fi-lever-name'+(s.ref?' ref':'')+'">'+s.name+'</span><div class="fi-bar-track"><div class="fi-bar-fill" style="width:'+p2+'%;background:'+c+';"></div></div><span style="font-size:12px;font-weight:500;min-width:80px;text-align:right;color:'+c+';font-variant-numeric:tabular-nums;">'+(s.sip<=0?'Covered':fmtCr(s.sip))+'</span></div>';
+  });
+  html+='</div>';
+
+  document.getElementById('output-area').innerHTML=html;
+
+  const allLabels=Array.from({length:yToFI+postYrs+1},(_,i)=>curAge+i);
+  const tot=allLabels.length,np=n=>Array(n).fill(null);
+  const flatA=accBuild(0,reqFlat,preRet,yToFI);
+  const stepA=stepBuild(0,reqStep,preRet,yToFI,spPct);
+  const othA=Array.from({length:yToFI+1},(_,i)=>Math.round(getOtherFV(i)));
+  const depA=deplete(corpus,expAtFI*12,postRet,inf,postYrs,0,0);
+  const datasets=[
+    {label:'Path A flat SIP',data:[...flatA,...np(tot-flatA.length)],borderColor:'var(--fi-green)',backgroundColor:'rgba(26,122,79,0.05)',fill:true,tension:0.4,pointRadius:0,borderWidth:1.5,spanGaps:false},
+    {label:'Path B step-up SIP',data:[...stepA,...np(tot-stepA.length)],borderColor:'var(--fi-blue)',backgroundColor:'rgba(37,99,235,0.04)',fill:true,tension:0.4,pointRadius:0,borderWidth:1.5,spanGaps:false},
+  ];
+  if(totalOtherFV>0) datasets.push({label:'Other sources',data:[...othA,...np(tot-othA.length)],borderColor:'var(--fi-amber)',backgroundColor:'rgba(161,98,7,0.04)',fill:true,tension:0.4,pointRadius:0,borderWidth:1.5,spanGaps:false});
+  datasets.push({label:'FI drawdown',data:[...np(yToFI),...depA],borderColor:'var(--fi-accent)',backgroundColor:'rgba(214,64,0,0.04)',fill:true,tension:0.35,pointRadius:0,borderWidth:1.5,spanGaps:false});
+  if(currentSIP>0) datasets.push({label:'Your SIP',data:[...accBuild(0,currentSIP,preRet,yToFI),...np(postYrs)],borderColor:'#7F77DD',borderDash:[4,3],fill:false,tension:0.4,pointRadius:0,borderWidth:1.5,spanGaps:false});
+  const li=[{color:'#1a7a4f',label:'Path A (flat)'},{color:'#2563eb',label:'Path B (step-up)'}];
+  if(totalOtherFV>0) li.push({color:'#a16207',label:'Other sources'});
+  li.push({color:'#d64000',label:'FI drawdown'});
+  if(currentSIP>0) li.push({color:'#7F77DD',label:'Your SIP',dash:true});
+  setLegend(li);
+  document.getElementById('cnote').textContent='FI at age '+fiAge+' needs '+fmtCr(corpus)+'. Path A: '+(reqFlat<=0?'—':fmtCr(reqFlat)+'/mo fixed')+'. Path B: '+(reqStep<=0?'—':fmtCr(reqStep)+'/mo growing at '+(spPct*100).toFixed(0)+'%/yr')+'.';
+  drawChart(allLabels,datasets,v=>'Age '+v);
+}
+
+function renderPost(){
+  const curAge=g('pca'),life=g('ple'),corpus=g('pc'),monthlyExp=g('pme');
+  const ret=g('pret')/100,inf=g('pinf')/100,mInc=g('inc'),incG=g('incg')/100;
+  const postYrs=Math.max(1,life-curAge),annExp=monthlyExp*12;
+  const realRet=(((1+ret)/(1+inf))-1)*100;
+  const depArr=deplete(corpus,annExp,ret,inf,postYrs,mInc,incG);
+  const runsOut=corpusRunsOut(depArr,curAge);
+  const safeCorpus=calcCorpus(annExp,ret,inf,postYrs);
+  const surplus=corpus-safeCorpus;
+  const maxSpend=(()=>{if(Math.abs(ret-inf)<0.0001)return corpus/postYrs/12;return corpus*(ret-inf)/(1-Math.pow((1+inf)/(1+ret),postYrs))/12;})();
+  const mCls=realRet<0?'bad':realRet<1?'warn':'';
+
+  let html='<div class="fi-metrics">';
+  html+='<div class="fi-metric"><p class="fi-metric-label">Corpus today</p><p class="fi-metric-value">'+fmtCr(corpus)+'</p></div>';
+  html+='<div class="fi-metric'+(runsOut&&runsOut<life?' bad':' ok')+'"><p class="fi-metric-label">Corpus runs out at</p><p class="fi-metric-value">'+(runsOut?'Age '+runsOut:'Never')+'</p><p class="fi-metric-sub">'+(runsOut&&runsOut<life?(life-runsOut)+' yrs before target':runsOut?'After life expectancy':'Outlasts plan')+'</p></div>';
+  html+='<div class="fi-metric"><p class="fi-metric-label">Max safe monthly spend</p><p class="fi-metric-value">'+fmtCr(maxSpend)+'</p><p class="fi-metric-sub">to age '+life+'</p></div>';
+  html+='<div class="fi-metric '+mCls+'"><p class="fi-metric-label">Real return</p><p class="fi-metric-value">'+realRet.toFixed(1)+'%</p><p class="fi-metric-sub">Return minus inflation</p></div>';
+  html+='</div>';
+
+  html+='<div class="fi-info">'+(surplus>=0?'Buffer of <strong>'+fmtCr(surplus)+'</strong> above minimum needed.':'Shortfall of <strong>'+fmtCr(-surplus)+'</strong> — reduce spending or add passive income.')+(mInc>0?' Passive income of '+fmtCr(mInc)+'/mo offsets corpus draws.':'')+'</div>';
+  document.getElementById('output-area').innerHTML=html;
+
+  const labels=Array.from({length:postYrs+1},(_,i)=>curAge+i);
+  const datasets=[{label:'Corpus',data:depArr,borderColor:'var(--fi-accent)',backgroundColor:'rgba(214,64,0,0.06)',fill:true,tension:0.4,pointRadius:0,borderWidth:1.5},{label:'Start',data:Array(postYrs+1).fill(Math.round(corpus)),borderColor:'var(--fi-pale)',borderDash:[5,4],fill:false,tension:0,pointRadius:0,borderWidth:1}];
+  if(mInc>0) datasets.push({label:'Without income',data:deplete(corpus,annExp,ret,inf,postYrs,0,0),borderColor:'var(--fi-red)',borderDash:[3,3],fill:false,tension:0.4,pointRadius:0,borderWidth:1.5});
+  setLegend([{color:'#d64000',label:'Corpus'},{color:'#e8e8e8',label:'Starting',dash:true},...(mInc>0?[{color:'#c4321a',label:'Without income',dash:true}]:[])]);
+  document.getElementById('cnote').textContent=runsOut?(runsOut<life?'Corpus depletes at age '+runsOut+' — '+(life-runsOut)+' years early.':'Lasts to '+runsOut+', beyond target.'):'Corpus outlasts life expectancy ('+life+').';
+  drawChart(labels,datasets,v=>'Age '+v);
+}
+
+function drawChart(labels,datasets,tickCb){
+  const fontFamily="'Inter', -apple-system, system-ui, sans-serif";
+  if(chart){chart.data.labels=labels;chart.data.datasets=datasets;chart.options.scales.x.ticks.callback=tickCb;chart.update('none');}
+  else{chart=new Chart(document.getElementById('rc').getContext('2d'),{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1a1a',titleFont:{family:fontFamily,size:11,weight:'500'},bodyFont:{family:fontFamily,size:12},cornerRadius:4,padding:10,callbacks:{label:ctx=>' '+fmtCr(ctx.parsed.y),title:ctx=>'Age '+ctx[0].label}}},scales:{x:{ticks:{autoSkip:true,maxTicksLimit:12,font:{family:fontFamily,size:10,weight:'400'},color:'#999',callback:tickCb},grid:{display:false},border:{display:false}},y:{ticks:{callback:v=>v>=1e7?'₹'+(v/1e7).toFixed(1)+'Cr':v>=1e5?'₹'+(v/1e5).toFixed(0)+'L':'₹'+(v/1000).toFixed(0)+'K',font:{family:fontFamily,size:10,weight:'400'},color:'#999'},grid:{color:'rgba(0,0,0,0.04)'},border:{display:false}}}}});}
+}
+
+document.querySelectorAll('input[type=range]').forEach(el=>{
+  el.addEventListener('input',()=>{
+    const id=el.id,v=+el.value,did='disp-'+id;
+    if(id==='ret-age') setText('ret-age-disp',v);
+    else if(['ca','le','pca','ple'].includes(id)) setText(did,v);
+    else if(['pr','por','su','inf','mfr','epfr','epfsu','fdr','npsr','othr','pret','pinf','incg'].includes(id)) setText(did,v+'%');
+    else setText(did,'₹'+fmtIN(v));
+    r();
+  });
+});
+
+r();
+</script>
