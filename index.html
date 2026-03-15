@@ -40,12 +40,18 @@
   padding: 40px 48px 48px;
   -webkit-font-smoothing: antialiased;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 html, body {
   margin: 0;
   padding: 0;
   background: var(--fi-bg, #fafafa);
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 .fi-root *, .fi-root *::before, .fi-root *::after {
@@ -181,12 +187,14 @@ html, body {
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 6px;
+  gap: 8px;
 }
 
 .fi-slider-label {
   font-size: 12px;
   color: var(--fi-mid);
   font-weight: 400;
+  min-width: 0;
 }
 
 .fi-slider-value {
@@ -194,6 +202,8 @@ html, body {
   font-weight: 600;
   color: var(--fi-black);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ── Range Input Styling ── */
